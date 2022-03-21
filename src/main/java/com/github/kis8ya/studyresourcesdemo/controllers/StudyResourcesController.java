@@ -42,11 +42,10 @@ public class StudyResourcesController {
     @RequestMapping(value = {"/{id}"}, method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<StudyResource> patchById(@PathVariable String id, @RequestBody StudyResource resource) {
         HttpStatus status = HttpStatus.CREATED;
-        if (studyResourcesService.removeById(id)) {
+        if (studyResourcesService.existsById(resource.getId())) {
             status = HttpStatus.OK;
         }
-        studyResourcesService.add(resource);
-        return new ResponseEntity<>(resource, status);
+        return new ResponseEntity<>(studyResourcesService.add(resource), status);
     }
 
     @DeleteMapping({"/{id}"})
